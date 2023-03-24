@@ -1,14 +1,15 @@
 """
 Command stub for sdkmanager
 """
+
 import os
 import sys
 
 from androidemulator.paths import ANDROID_SDK
 from androidemulator.trampoline import trampoline
 
-COMMAND = "adb"
-DEFAULT_PATH = os.path.join(ANDROID_SDK, "platform-tools")
+COMMAND = "emulator"
+DEFAULT_PATH = os.path.join(ANDROID_SDK, "emulator")
 
 
 def main(argv: list[str] | None = None) -> int:

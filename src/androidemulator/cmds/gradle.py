@@ -1,19 +1,18 @@
 """
 Command stub for sdkmanager
 """
-import os
+
 import sys
 
-from androidemulator.paths import ANDROID_SDK
 from androidemulator.trampoline import trampoline
+from androidemulator.paths import GRADLE_HOME
 
-COMMAND = "adb"
-DEFAULT_PATH = os.path.join(ANDROID_SDK, "platform-tools")
+COMMAND = "gradle"
 
 
 def main(argv: list[str] | None = None) -> int:
     """Main"""
-    return trampoline(COMMAND, args=argv, default_path=DEFAULT_PATH)
+    return trampoline(COMMAND, args=argv, default_path=GRADLE_HOME)
 
 
 if __name__ == "__main__":

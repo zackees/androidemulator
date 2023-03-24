@@ -4,15 +4,16 @@ Command stub for sdkmanager
 import os
 import sys
 
-from androidemulator.paths import ANDROID_SDK
 from androidemulator.trampoline import trampoline
 
-COMMAND = "adb"
-DEFAULT_PATH = os.path.join(ANDROID_SDK, "platform-tools")
+COMMAND = "java"
+DEFAULT_PATH = os.path.join(os.environ.get("JAVA_HOME"), "bin")
 
 
 def main(argv: list[str] | None = None) -> int:
     """Main"""
+    if argv is not None:
+        sys.argv[1:] = argv
     return trampoline(COMMAND, args=argv, default_path=DEFAULT_PATH)
 
 
