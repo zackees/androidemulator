@@ -7,7 +7,8 @@ Manager for Android Virtual Devices (AVD)
 import dataclasses
 import os
 from dataclasses import dataclass
-from subprocess import check_output
+
+from androidemulator.util import execute
 
 
 @dataclass
@@ -57,7 +58,7 @@ class AvdManager:
         # os.system(f"avdmanager create avd -n {name} -k {image} -d {device}")
         # os.system(f'echo no | avdmanager create avd --force -n "{name}" --abi "{image}" --package "{image}" --device "{device}"')
         cmd = f'echo no | avdmanager create avd --force -n "{name}" --abi "{image}" --package "{image}" --device "{device}"'
-        return _exec(cmd)
+        return execute(cmd)
 
     def delete_avd(self, name: str):
         """Deletes an AVD"""
@@ -65,7 +66,7 @@ class AvdManager:
 
     def list_avd(self, name: str | None = None) -> list[Avd]:
         """Lists all AVDs"""
-        stdout = _exec("avdmanager list avd")
+        stdout = execute("avdmanager list avd")
         out: list[Avd] = _parse_avd_list(stdout)
         if name is not None:
             out = [avd for avd in out if avd.name == name]
@@ -73,13 +74,13 @@ class AvdManager:
 
     def list_device(self) -> list[Device]:
         """Lists all devices"""
-        stdout = _exec("avdmanager list device")
+        stdout = execute("avdmanager list device")
         devices = _parse_devices(stdout)
         return devices
 
     def list_targets(self) -> list[Target]:
         """Lists all targets"""
-        stdout = _exec("avdmanager list target")
+        stdout = execute("avdmanager list target")
         return _parse_target_list(stdout)
 
     def to_json(self) -> dict:
@@ -105,12 +106,7 @@ class AvdManager:
 
     def help(self):
         """Returns the help text"""
-        return _exec("avdmanager --help")
-
-
-def _exec(cmd: str) -> str:
-    print(f"Executing: {cmd}")
-    return check_output(cmd, shell=True, universal_newlines=True).strip()
+        return execute("avdmanager --help")
 
 
 def _parse_avd_list(avd_list: str) -> list[Avd]:

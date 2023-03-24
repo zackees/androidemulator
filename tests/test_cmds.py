@@ -4,7 +4,7 @@ Unit test file.
 
 import unittest
 
-from androidemulator.cmds import adb, avdmanager, emulator, gradle, java, sdkmanager
+from pyflutterinstall.cmds import adb, avdmanager, emulator, gradle, java, sdkmanager
 
 
 class UseExePaths(unittest.TestCase):
