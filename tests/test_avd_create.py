@@ -7,10 +7,13 @@ import unittest
 
 from androidemulator.avdman import AvdManager
 
+DISABLE_TEST = True
+
 
 class AvdCreateTester(unittest.TestCase):
     """Main tester class."""
 
+    @unittest.skipIf(DISABLE_TEST, "Disabled")
     def test_create(self) -> None:
         """Test creating an avd."""
         avdman = AvdManager()

@@ -6,7 +6,7 @@ import sys
 
 from androidemulator.trampoline import trampoline
 
-COMMAND = "sdkmanager"
+COMMAND = "adb"
 
 
 def main() -> int:

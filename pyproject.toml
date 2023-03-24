@@ -10,7 +10,7 @@ keywords = ["template-python-cmd"]
 license = { text = "BSD 3-Clause License" }
 classifiers = ["Programming Language :: Python :: 3"]
 dependencies = [
-
+    "zcmds",  # Provides missing unix commands and other utilities. Can be removed later.
 ]
 # Change this with the version number bump.
 # Also make the change in zcmds/version.py
@@ -37,3 +37,5 @@ androidemulator = "androidemulator.cli:main"
 # These paths are hard to get right, so we use the entry points
 # to make sure they are correct.
 sdkmanager = "androidemulator.cmds.sdkmanager:main"
+avdmanager = "androidemulator.cmds.avdmanager:main"
+adb = "androidemulator.cmds.adb:main"
