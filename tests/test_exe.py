@@ -12,12 +12,10 @@ class UseExePaths(unittest.TestCase):
     """Main tester class."""
 
     def test_create(self) -> None:
-        """Test creating an avd."""
-        programs = ["adb", "emulator", "avdmanager"]
-        for program in programs:
+        """That the trampolines work."""
+        for program in ["adb", "emulator", "avdmanager", "sdkmanager", "gradle"]:
             files = which_all(program, filter_package_exes=False)
-            self.assertEqual(len(files), 1, f"Could not find {program}.")
-        
+            self.assertGreater(len(files), 0, f"Could not find {program}.")
 
 
 if __name__ == "__main__":
