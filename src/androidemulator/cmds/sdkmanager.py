@@ -8,7 +8,9 @@ from androidemulator.trampoline import trampoline
 
 COMMAND = "sdkmanager"
 
-ANDROID_SDK = os.environ.get("ANDROID_SDK_ROOT") or os.environ.get("ANDROID_HOME") or "UNKNOWN"
+ANDROID_SDK = (
+    os.environ.get("ANDROID_SDK_ROOT") or os.environ.get("ANDROID_HOME") or "UNKNOWN"
+)
 DEFAULT_PATH = os.path.join(ANDROID_SDK, "tools", "bin")
 
 

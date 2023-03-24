@@ -7,7 +7,7 @@ import sys
 from androidemulator.trampoline import trampoline
 
 COMMAND = "java"
-DEFAULT_PATH = os.path.join(os.environ.get("JAVA_HOME"), "bin")
+DEFAULT_PATH = os.path.join(os.environ.get("JAVA_HOME", "BAD_PATH"), "bin")
 
 
 def main(argv: list[str] | None = None) -> int:

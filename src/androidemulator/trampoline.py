@@ -9,12 +9,13 @@ commands are found.
 import os
 import subprocess
 import sys
-from typing import Optional
 
 from androidemulator.which_all import which_all
 
 
-def trampoline(command: str, args: list[str] | None = None, default_path: str | None = None) -> int:
+def trampoline(
+    command: str, args: list[str] | None = None, default_path: str | None = None
+) -> int:
     """Trampoline"""
     if args is None:
         args = sys.argv[1:]

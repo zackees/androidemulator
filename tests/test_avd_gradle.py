@@ -16,7 +16,7 @@ class GradleTester(unittest.TestCase):
         gradle_home = find_gradle_home()
         print(gradle_home)
         print()
-        
+
 
 if __name__ == "__main__":
     unittest.main()

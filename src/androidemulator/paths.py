@@ -4,7 +4,9 @@ Common paths.
 
 import os
 
-ANDROID_SDK = os.environ.get("ANDROID_SDK_ROOT") or os.environ.get("ANDROID_HOME") or "UNKNOWN"
+ANDROID_SDK = (
+    os.environ.get("ANDROID_SDK_ROOT") or os.environ.get("ANDROID_HOME") or "UNKNOWN"
+)
 assert os.path.exists(ANDROID_SDK), "ANDROID_SDK_ROOT or ANDROID_HOME must be set"
 
 
@@ -28,7 +30,6 @@ def find_gradle_home() -> str:
             gradle_dir = os.path.join(gradle_dir, dir_versions[0], "bin")
             if os.path.exists(gradle_dir):
                 return gradle_dir
-
 
 
 GRADLE_HOME = find_gradle_home()

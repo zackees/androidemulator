@@ -4,7 +4,8 @@ Unit test file.
 
 import unittest
 
-from androidemulator.cmds import java, adb, avdmanager, gradle, sdkmanager, emulator
+from androidemulator.cmds import adb, avdmanager, emulator, gradle, java, sdkmanager
+
 
 class UseExePaths(unittest.TestCase):
     """Thest that each tool can be called from the path."""
@@ -24,7 +25,7 @@ class UseExePaths(unittest.TestCase):
     def test_gradle(self) -> None:
         """Tests that we can bind to the gradle executable."""
         self.assertEqual(0, gradle.main(["-version"]))
-    
+
     def test_sdkmanager(self) -> None:
         """Tests that we can bind to the sdkmanager executable."""
         self.assertEqual(1, sdkmanager.main(["--help"]))
@@ -32,7 +33,6 @@ class UseExePaths(unittest.TestCase):
     def test_emulator(self) -> None:
         """Tests that we can bind to the emulator executable."""
         self.assertEqual(0, emulator.main(["-help"]))
-
 
 
 if __name__ == "__main__":

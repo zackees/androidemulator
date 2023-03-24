@@ -4,8 +4,8 @@ Command stub for sdkmanager
 
 import sys
 
-from androidemulator.trampoline import trampoline
 from androidemulator.paths import GRADLE_HOME
+from androidemulator.trampoline import trampoline
 
 COMMAND = "gradle"
 
