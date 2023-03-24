@@ -11,7 +11,6 @@ from androidemulator.avdman import AvdManager
 class AvdCreateTester(unittest.TestCase):
     """Main tester class."""
 
-    @unittest.skip("Skipping test_create")
     def test_create(self) -> None:
         """Test creating an avd."""
         avdman = AvdManager()

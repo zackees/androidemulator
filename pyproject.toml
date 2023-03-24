@@ -34,3 +34,6 @@ ignore_missing_imports = true
 
 [project.scripts]
 androidemulator = "androidemulator.cli:main"
+# These paths are hard to get right, so we use the entry points
+# to make sure they are correct.
+sdkmanager = "androidemulator.cmds.sdkmanager:main"
