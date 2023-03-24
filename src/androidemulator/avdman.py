@@ -13,6 +13,7 @@ from subprocess import check_output
 @dataclass
 class Avd:
     """AVD representing an avd device"""
+
     name: str
     device: str
     path: str
@@ -25,6 +26,7 @@ class Avd:
 @dataclass
 class Target:
     """Target representing an avd target"""
+
     idx: str
     id: str
     name: str
@@ -35,6 +37,7 @@ class Target:
 @dataclass
 class Device:
     """Device representing an avd device"""
+
     idx: str
     id: str
     name: str
@@ -44,6 +47,7 @@ class Device:
 
 class AvdManager:
     """AVD Manager"""
+
     def __init__(self):
         pass
 

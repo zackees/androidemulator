@@ -1,17 +1,18 @@
-
-
-
 """
 Unit test file.
 """
 import os
-import unittest
 import tempfile
+import unittest
+
 from androidemulator.which_all import which_all
 
+
 def touch(fname, times=None):
-    with open(fname, encoding="utf-8", mode='a'):
+    """Touch a file."""
+    with open(fname, encoding="utf-8", mode="a"):
         os.utime(fname, times)
+
 
 class MainTester(unittest.TestCase):
     """Main tester class."""
@@ -25,7 +26,7 @@ class MainTester(unittest.TestCase):
             touch(filepath)
             assert os.path.exists(filepath)
             files = which_all("fizzbuzz.exe")
-            self.assertEquals(1, len(files))
+            self.assertEqual(1, len(files))
 
     @unittest.skipIf(os.name == "nt", "None windows Only.")
     def test_which_all(self) -> None:
@@ -36,10 +37,8 @@ class MainTester(unittest.TestCase):
             touch(filepath)
             os.chmod(filepath, 0o777)
             files = which_all("fizzbuzz")
-            self.assertEquals(1, len(files))
+            self.assertEqual(1, len(files))
 
 
 if __name__ == "__main__":
     unittest.main()
-
-

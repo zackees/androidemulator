@@ -7,6 +7,7 @@ are multiple versions of a program on the system.
 import os
 import sys
 
+
 def which_all(progname: str, filter_package_exes=True) -> list:
     """Returns all the paths where the program name could be found."""
     if os.name == "nt":
@@ -26,7 +27,7 @@ def which_all(progname: str, filter_package_exes=True) -> list:
     return out
 
 
-def _is_in_python_dir(path: str) -> bool:
+def _is_in_python_dir(path: str) -> bool:  # pylint: disable=too-many-return-statements
     """Returns True if the path is in the python directory."""
     dirname = os.path.dirname(path)
     if sys.platform == "win32":
@@ -50,8 +51,9 @@ def _is_in_python_dir(path: str) -> bool:
             return True
     return False
 
+
 def _which_all_win32(progname: str) -> list:
-    paths = os.environ.get("PATH").split(os.pathsep)
+    paths = os.environ.get("PATH", "").split(os.pathsep)
     found_executables = []
     pname, ext = os.path.splitext(progname)
     extra_paths = [".bat", ".exe", ".cmd", ".com"]
@@ -71,8 +73,9 @@ def _which_all_win32(progname: str) -> list:
     # Remove adjacent duplicates
     return found_executables
 
+
 def _which_all_unix(progname: str) -> list:
-    paths = os.environ.get("PATH").split(os.pathsep)
+    paths = os.environ.get("PATH", "").split(os.pathsep)
     found_executables = []
     # We are doing an exact match, so don't add any extensions
     for path in paths:
@@ -80,4 +83,3 @@ def _which_all_unix(progname: str) -> list:
         if os.path.exists(full_path) and os.access(full_path, os.X_OK):
             found_executables.append(full_path)
     return found_executables
-

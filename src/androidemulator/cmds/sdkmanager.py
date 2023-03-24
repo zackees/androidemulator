@@ -1,13 +1,15 @@
+"""
+Command stub for sdkmanager
+"""
 
-
-import sys
 import os
-
 import subprocess
+import sys
 
 from androidemulator.which_all import which_all
 
 COMMAND = "sdkmanager"
+
 
 def main() -> int:
     """Main"""
@@ -18,6 +20,8 @@ def main() -> int:
     print(os.path.abspath(__file__))
     cmd_list = [paths[0]] + sys.argv[1:]
     subprocess.call(cmd_list)
+    return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

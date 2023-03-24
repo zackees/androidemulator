@@ -63,7 +63,9 @@ def bringup_emulator() -> RunningDevice:
     exec_cmd("sdkmanager --install emulator --channel=0")
     exec_cmd(f'sdkmanager --install "{EMULATOR_TYPE}" --channel=0')
 
-    proc = subprocess.Popen(LAUNCH_CMD, shell=True, universal_newlines=True)  # pylint: disable=consider-using-with
+    proc = subprocess.Popen(  # pylint: disable=consider-using-with
+        LAUNCH_CMD, shell=True, universal_newlines=True
+    )  # pylint: disable=consider-using-with
     atexit.register(proc.kill)
 
     # exec_cmd('adb wait-for-device')

@@ -54,9 +54,13 @@ class Device:  # pylint: disable=too-many-instance-attributes
                     return val[8:]
                 return val
 
-            package_lines = [remove_package_prefix(package) for package in package_lines]
+            package_lines = [
+                remove_package_prefix(package) for package in package_lines
+            ]
             if match_str:
-                package_lines = [package for package in package_lines if match_str in package]
+                package_lines = [
+                    package for package in package_lines if match_str in package
+                ]
             return package_lines
         except Exception as exc:  # pylint: disable=broad-except
             print(f"Error listing packages: {exc}")
