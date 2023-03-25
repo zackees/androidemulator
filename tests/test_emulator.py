@@ -21,7 +21,7 @@ class EmulatorTester(unittest.TestCase):
         emulator = Emulator(system_image=SYSTEM_IMAGE, name="test")
         emulator.start()
         try:
-            print("sleeping")
+            print("Waiting for boot")
             emulator.wait_for_boot()
             self.assertTrue(emulator.is_booted(), "Emulator not booted.")
             print()

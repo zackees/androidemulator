@@ -51,6 +51,9 @@ jobs:
     - name: printenv | tee ~/platform_env.txt
       run: printenv
 
+    - name: list some contents of install destination
+      run: findfiles ~/FlutterSDK
+
     - name: Upload platform_env.txt
       uses: actions/upload-artifact@v2
       with:

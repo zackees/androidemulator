@@ -34,7 +34,7 @@ class Emulator:
         warnings.warn("Device not found.")
         return None
 
-    def start(self) -> None:
+    def start(self, kill_all_running_emulators=True) -> None:
         """Initializes and starts the emulator."""
         assert (
             "system-images;" in self.system_image
@@ -42,10 +42,11 @@ class Emulator:
         package = self.sdk_manager.install(self.system_image, channel=0)
         running_avds = self.avd_manager.list_avd(name=self.name)
         print(f"Running AVDs: {running_avds}")
-        for device in self.adb.devices():
-            if device.is_emulator:
-                print(f"Killing {device.serial}")
-                self.adb.kill(device.serial)
+        if kill_all_running_emulators:
+            for device in self.adb.devices():
+                if device.is_emulator:
+                    print(f"Killing {device.serial}")
+                    self.adb.kill(device.serial)
         stdout = self.avd_manager.create_avd(
             name=self.name,
             package=package,
