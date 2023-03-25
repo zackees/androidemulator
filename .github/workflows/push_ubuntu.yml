@@ -70,7 +70,7 @@ jobs:
       continue-on-error: true
       
     - name: Run cmds Test
-      run: python tests/cmds_cmds.py
+      run: python tests/test_cmds.py
       continue-on-error: true
       
     - name: Run Emulator Test
