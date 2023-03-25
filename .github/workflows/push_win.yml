@@ -32,6 +32,7 @@ jobs:
         pip install pyflutterinstall
         pyflutterinstall --skip-confirmation
     - name: Which utilties
+      run: |
         which adb
         which emulator
         which avdmanager
