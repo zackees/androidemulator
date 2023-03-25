@@ -2,6 +2,7 @@
 Emulator class for managing the emulator.
 """
 
+import os
 import subprocess
 import time
 import warnings
@@ -61,7 +62,10 @@ class Emulator:
         self.running_proc = subprocess.Popen(  # pylint: disable=consider-using-with
             cmd, shell=True, universal_newlines=True
         )
-        device = _wait_for_new_device(self.adb)
+
+        is_github_runner = os.getenv("GITHUB_ACTIONS") == "true"
+        timeout = 2 * 60 if is_github_runner else 10 * 60
+        device = _wait_for_new_device(self.adb, timeout=timeout)
         self.running_device_serial = device.serial
 
     def is_booted(self) -> bool:
