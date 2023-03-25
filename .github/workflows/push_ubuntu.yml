@@ -52,7 +52,7 @@ jobs:
       run: printenv
 
     - name: list some contents of install destination
-      run: findfiles ~/FlutterSDK
+      run: findfiles ~/FlutterSDK || true
 
     - name: Upload platform_env.txt
       uses: actions/upload-artifact@v2
