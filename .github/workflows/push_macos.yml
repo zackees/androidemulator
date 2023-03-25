@@ -28,7 +28,9 @@ jobs:
         python -m pip install .
         python -m pip install pytest
     - name: Install SDK
-      run: python pyflutterinstall --skip-confirmation
+      run: |
+        pip install pyflutterinstall
+        pyflutterinstall --skip-confirmation
     - name: Run Tests
       run: |
         pytest tests
