@@ -8,7 +8,7 @@ from androidemulator.testing.watchdog import WatchDog
 
 wdt = WatchDog()
 
-COMMAND = "androidemulator"
+COMMAND = "androidemulator --help"
 
 
 class MainTester(unittest.TestCase):
