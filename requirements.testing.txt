@@ -5,3 +5,4 @@ mypy
 pylint
 pytest
 tox
+zcmds

@@ -8,6 +8,7 @@ import time
 import unittest
 from dataclasses import dataclass
 
+from androidemulator.adb import Adb, Device
 from androidemulator.avdmanager import AvdManager
 from androidemulator.sdkmanager import SdkManager
 
@@ -27,6 +28,7 @@ class Emulator:
     avd_manager: AvdManager = AvdManager()
     sdk_manager: SdkManager = SdkManager()
     running_proc: subprocess.Popen | None = None
+    running_device: str | None = None
 
     def start(self) -> None:
         """Initializes and starts the emulator."""
@@ -41,9 +43,31 @@ class Emulator:
         assert len(avds) > 0, "AVD not created."
         # return stdout
         cmd = f"emulator -avd {self.name}"
+        print("Running: ", cmd)
         self.running_proc = subprocess.Popen(  # pylint: disable=consider-using-with
             cmd, shell=True, universal_newlines=True
         )
+        adb = Adb()
+        prev_devices: list[Device] = adb.devices()
+        while True:
+            time.sleep(1)
+            curr_devices: set[Device] = set(adb.devices())
+            # if new elements in curr_devices, then we have a new device.
+            new_devices = curr_devices - set(prev_devices)  # set difference
+            if new_devices:
+                # new device showed up
+                prev_devices = [new_devices.pop()]
+                break
+        self.running_device = prev_devices[0].serial
+
+    def is_booted(self) -> bool:
+        """Checks if the emulator is booted."""
+        cmd = "adb shell getprop sys.boot_completed"
+        print(f"Running: {cmd}")
+        stdout = subprocess.run(
+            cmd, shell=True, universal_newlines=True, capture_output=True, check=False
+        )
+        return stdout.stdout.strip() == "1"
 
     def stop(self):
         """Stops the emulator."""
@@ -57,10 +81,13 @@ class AvdCreateTester(unittest.TestCase):
         """Test creating an avd."""
         emulator = Emulator(system_image=SYSTEM_IMAGE, name="test")
         emulator.start()
-        print("sleeping")
-        time.sleep(10)
-        emulator.stop()
-        # self.assertEqual(len(avds), 1, "AVD not created.")
+        try:
+            print("sleeping")
+            time.sleep(30)
+            # Not working yet.
+            # self.assertTrue(emulator.is_booted(), "Emulator not booted.")
+        finally:
+            emulator.stop()
 
 
 if __name__ == "__main__":
