@@ -33,10 +33,10 @@ jobs:
         pyflutterinstall --skip-confirmation
     - name: Which utilties
       run: |
-        which adb
-        which emulator
-        which avdmanager
-        which sdkmanager
+        adb --which
+        emulator --which
+        avdmanager --which
+        sdkmanager --which
         which gradle
     - name: printenv
       run: printenv
