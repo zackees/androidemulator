@@ -7,6 +7,9 @@ import unittest
 from pprint import pprint
 
 from androidemulator.adb import Adb
+from androidemulator.testing.watchdog import WatchDog
+
+wdt = WatchDog()
 
 
 class AdbTester(unittest.TestCase):

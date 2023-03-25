@@ -6,6 +6,9 @@ Unit test file.
 import unittest
 
 from androidemulator.sdkmanager import SdkManager
+from androidemulator.testing.watchdog import WatchDog
+
+wdt = WatchDog()
 
 
 class SdkManagerTest(unittest.TestCase):

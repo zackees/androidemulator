@@ -6,6 +6,9 @@ Unit test file.
 import unittest
 
 from androidemulator.avdmanager import AvdManager
+from androidemulator.testing.watchdog import WatchDog
+
+wdt = WatchDog()
 
 
 class AvdListingTester(unittest.TestCase):

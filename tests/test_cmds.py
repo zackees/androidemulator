@@ -4,6 +4,10 @@ Unit test file.
 import os
 import unittest
 
+from androidemulator.testing.watchdog import WatchDog
+
+wdt = WatchDog()
+
 try:
     from pyflutterinstall.cmds import (
         adb,
