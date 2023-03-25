@@ -61,7 +61,7 @@ class AvdManager:
         assert package.is_system_image
         abi = package.abi
         pname = package.package
-        cmd = f'echo no | avdmanager create avd --force -n "{name}" --abi "{abi}" --package "{pname}" --device "{device}" -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -accel off'
+        cmd = f'echo no | avdmanager create avd --force -n "{name}" --abi "{abi}" --package "{pname}" --device "{device}"'
         return execute(cmd)
 
     def delete_avd(self, name: str):

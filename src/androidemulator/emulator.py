@@ -57,7 +57,7 @@ class Emulator:
         avds = self.avd_manager.list_avd(name=self.name)
         assert len(avds) > 0, "AVD not created."
         # return stdout
-        cmd = f"emulator -avd {self.name} -no-boot-anim"
+        cmd = f"emulator -avd {self.name} -no-boot-anim -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -accel off -no-window"  # pylint: disable=line-too-long
         print("Running: ", cmd)
         self.running_proc = subprocess.Popen(  # pylint: disable=consider-using-with
             cmd, shell=True, universal_newlines=True
