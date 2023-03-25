@@ -25,8 +25,8 @@ jobs:
     - name: FlutterSDK Caching
       uses: actions/cache@v3
       with:
-        path: ~/FlutterSDK/.downloads
-        key: ${{ runner.os }}-FlutterSDK-Downloads
+        path: ~/FlutterSDK
+        key: ${{ runner.os }}-FlutterSDK
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
