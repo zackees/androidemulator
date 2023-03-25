@@ -57,10 +57,11 @@ class AvdManager:
         #   /usr/bin/sh -c \echo no | avdmanager create avd --force -n test --abi 'android-tv/x86' --package 'system-images;android-30;android-tv;x86' --device 'Nexus 6'
         # os.system(f"avdmanager create avd -n {name} -k {image} -d {device}")
         # os.system(f'echo no | avdmanager create avd --force -n "{name}" --abi "{image}" --package "{image}" --device "{device}"')
+        # -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -accel off
         assert package.is_system_image
         abi = package.abi
         pname = package.package
-        cmd = f'echo no | avdmanager create avd --force -n "{name}" --abi "{abi}" --package "{pname}" --device "{device}"'
+        cmd = f'echo no | avdmanager create avd --force -n "{name}" --abi "{abi}" --package "{pname}" --device "{device}" -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -accel off'
         return execute(cmd)
 
     def delete_avd(self, name: str):
