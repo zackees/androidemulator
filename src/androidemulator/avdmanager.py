@@ -5,10 +5,10 @@ Manager for Android Virtual Devices (AVD)
 # pylint: disable=line-too-long
 
 import dataclasses
-import os
 from dataclasses import dataclass
 
 from androidemulator.execute import execute
+from androidemulator.sdkmanager import Package
 
 
 @dataclass
@@ -52,12 +52,15 @@ class AvdManager:
     def __init__(self):
         pass
 
-    def create_avd(self, name: str, abi: str, package: str, device: str):
+    def create_avd(self, name: str, package: Package, device: str):
         """Creates an AVD"""
         #   /usr/bin/sh -c \echo no | avdmanager create avd --force -n test --abi 'android-tv/x86' --package 'system-images;android-30;android-tv;x86' --device 'Nexus 6'
         # os.system(f"avdmanager create avd -n {name} -k {image} -d {device}")
         # os.system(f'echo no | avdmanager create avd --force -n "{name}" --abi "{image}" --package "{image}" --device "{device}"')
-        cmd = f'echo no | avdmanager create avd --force -n "{name}" --abi "{abi}" --package "{package}" --device "{device}"'
+        assert package.is_system_image
+        abi = package.abi
+        pname = package.package
+        cmd = f'echo no | avdmanager create avd --force -n "{name}" --abi "{abi}" --package "{pname}" --device "{device}"'
         return execute(cmd)
 
     def delete_avd(self, name: str):

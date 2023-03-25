@@ -25,7 +25,7 @@ def execute(cmd: str, check=True, echo=True) -> str:
         modified_cmd = f"{cmd} | tee {tmpfile.name}"  # tee provided by zcmds for win32
     else:
         modified_cmd = f"{cmd} > {tmpfile.name}"
-    print(f"Executing: {modified_cmd}")
+    print(f"Executing: {cmd}")
     try:
         run(modified_cmd, shell=True, universal_newlines=True, check=check)
     finally:

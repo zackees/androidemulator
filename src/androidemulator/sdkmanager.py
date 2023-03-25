@@ -9,22 +9,28 @@ from androidemulator.execute import execute
 
 
 @dataclass
-class InstalledPackage:
+class Package:
     """Represents an installed package"""
 
-    path: str
+    package: str
     version: str
     description: str
-    location: str
+    location: str | None
 
+    @property
+    def installed(self) -> bool:
+        """Returns True if the package is installed."""
+        return self.location is not None
 
-@dataclass
-class AvailablePackage:
-    """Represents an Available package"""
+    @property
+    def abi(self) -> str:
+        """Returns the ABI of the package."""
+        return self.package.split(";")[-1]  # pylint: disable=use-maxsplit-arg
 
-    path: str
-    version: str
-    description: str
+    @property
+    def is_system_image(self) -> bool:
+        """Returns True if the package is a system image."""
+        return self.package.startswith("system-images;")
 
 
 class SdkManager:
@@ -33,12 +39,17 @@ class SdkManager:
     def __init__(self):
         pass
 
-    def install(self, image: str, channel: int | str | None = None):
+    def install(self, package: str, channel: int | str | None = None) -> Package:
         """Installs an image"""
-        cmd = f'sdkmanager --install "{image}"'
+        cmd = f'sdkmanager --install "{package}"'
         if channel is not None:
             cmd += f" --channel={channel}"
-        execute(cmd)
+        if not self.isinstalled(package):
+            execute(cmd, check=True)
+        packages = self.list_installed_packages(package)
+        if len(packages) == 0:
+            raise OSError(f"Package {package} not installed")
+        return packages[0]
 
     def accept_licenses(self):
         """Accepts licenses"""
@@ -49,9 +60,7 @@ class SdkManager:
         cmd = "sdkmanager --version"
         return execute(cmd, echo=False).strip()
 
-    def list_available_packages(
-        self, wildcard: str | None = None
-    ) -> list[AvailablePackage]:
+    def list_available_packages(self, wildcard: str | None = None) -> list[Package]:
         """Lists all available packages"""
         cmd = "sdkmanager --list"
         out = execute(cmd, echo=False)
@@ -60,14 +69,17 @@ class SdkManager:
             return available_packages
         available_packages2 = []
         for pack in available_packages:
-            match = fnmatch(pack.path, wildcard)
+            match = fnmatch(pack.package, wildcard)
             if match:
                 available_packages2.append(pack)
         return available_packages2
 
-    def list_installed_packages(
-        self, wildcard: str | None = None
-    ) -> list[InstalledPackage]:
+    def isinstalled(self, package: str) -> bool:
+        """Checks if an image is installed"""
+        installed_packages = self.list_installed_packages(package)
+        return len(installed_packages) > 0
+
+    def list_installed_packages(self, wildcard: str | None = None) -> list[Package]:
         """Checks if an image is installed"""
         cmd = "sdkmanager --list_installed"
         out = execute(cmd, echo=False)
@@ -76,19 +88,14 @@ class SdkManager:
             return installed_packages
         installed_packages2 = []
         for pack in installed_packages:
-            match = fnmatch(pack.path, wildcard)
+            match = fnmatch(pack.package, wildcard)
             if match:
                 installed_packages2.append(pack)
         return installed_packages2
 
-    def isinstalled(self, image: str) -> bool:
-        """Checks if an image is installed"""
-        installed_packages = self.list_installed_packages(image)
-        return len(installed_packages) > 0
 
-
-def _parse_installed_packages(data: str) -> list[InstalledPackage]:
-    package_list: list[InstalledPackage] = []
+def _parse_installed_packages(data: str) -> list[Package]:
+    package_list: list[Package] = []
     lines = data.split("\n")
     # Remove the header
     while len(lines) and not lines[0].startswith("Installed packages:"):
@@ -105,13 +112,13 @@ def _parse_installed_packages(data: str) -> list[InstalledPackage]:
         pieces = [p.strip() for p in pieces]
         pieces = [p for p in pieces if len(p)]
         # print(pieces)
-        pack = InstalledPackage(pieces[0], pieces[1], pieces[2], pieces[3])
+        pack = Package(pieces[0], pieces[1], pieces[2], pieces[3])
         package_list.append(pack)
     return package_list
 
 
-def _parse_available_packages(data: str) -> list[AvailablePackage]:
-    package_list: list[AvailablePackage] = []
+def _parse_available_packages(data: str) -> list[Package]:
+    package_list: list[Package] = []
     lines = data.split("\n")
     # Remove the header
     while len(lines) and not lines[0].startswith("Available Packages:"):
@@ -128,6 +135,6 @@ def _parse_available_packages(data: str) -> list[AvailablePackage]:
         pieces = [p.strip() for p in pieces]
         pieces = [p for p in pieces if len(p)]
         # print(pieces)
-        pack = AvailablePackage(pieces[0], pieces[1], pieces[2])
+        pack = Package(pieces[0], pieces[1], pieces[2], None)
         package_list.append(pack)
     return package_list
