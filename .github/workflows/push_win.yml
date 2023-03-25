@@ -38,6 +38,8 @@ jobs:
         which avdmanager
         which sdkmanager
         which gradle
+    - name: printenv
+      run: printenv
     - name: Run Test
       run: |
         pytest tests
