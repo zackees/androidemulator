@@ -40,7 +40,7 @@ jobs:
     - name: Install SDK
       run: |
         pip install pyflutterinstall
-        pyflutterinstall --skip-confirmation
+        pyflutterinstall --skip-confirmation ~/
     - name: Which utilties
       run: |
         which adb
