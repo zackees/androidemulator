@@ -48,15 +48,15 @@ jobs:
         which avdmanager
         which sdkmanager
         which gradle
-    - name: printenv | tee platform_env.txt
+    - name: printenv | tee ~/platform_env.txt
       run: printenv
 
     - name: Upload platform_env.txt
       uses: actions/upload-artifact@v2
       with:
         name: Environment Print
-        path: platform_env.txt
-      
+        path: ~/platform_env.txt
+
     - name: Run SdkManager Test
       run: python tests/test_sdk_manager.py
       continue-on-error: true
