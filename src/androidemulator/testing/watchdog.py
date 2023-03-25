@@ -10,7 +10,6 @@ import time
 
 def _exit():  # pylint: disable=invalid-name
     os._exit(-1)  # pylint: disable=protected-access
-    sys.exit(1)
 
 
 class WatchDog:  # pylint: disable=too-few-public-methods
