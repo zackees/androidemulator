@@ -69,6 +69,10 @@ jobs:
       run: python tests/test_sdk_manager.py
       continue-on-error: true
 
+    - name: find libpulse.so.0
+      run: findfiles libpulse.so.0
+      continue-on-error: true
+
     - name: Install Image
       run: androidemulator install "system-images;android-30;android-tv;x86"
 
