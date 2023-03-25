@@ -2,11 +2,10 @@
 SdkManager abstraction.
 """
 
-import os
 from dataclasses import dataclass
 from fnmatch import fnmatch
 
-from androidemulator.util import execute
+from androidemulator.execute import execute
 
 
 @dataclass
@@ -34,24 +33,28 @@ class SdkManager:
     def __init__(self):
         pass
 
-    def install(self, image: str, channel: int | None = None):
+    def install(self, image: str, channel: int | str | None = None):
         """Installs an image"""
         cmd = f'sdkmanager --install "{image}"'
         if channel is not None:
             cmd += f" --channel={channel}"
-        os.system(cmd)
+        execute(cmd)
+
+    def accept_licenses(self):
+        """Accepts licenses"""
+        execute("yes | sdkmanager --licenses")
 
     def version(self) -> str:
         """Gets the version of the sdk manager"""
         cmd = "sdkmanager --version"
-        return execute(cmd).strip()
+        return execute(cmd, echo=False).strip()
 
     def list_available_packages(
         self, wildcard: str | None = None
     ) -> list[AvailablePackage]:
         """Lists all available packages"""
         cmd = "sdkmanager --list"
-        out = execute(cmd)
+        out = execute(cmd, echo=False)
         available_packages = _parse_available_packages(out)
         if wildcard is None:
             return available_packages
@@ -67,7 +70,7 @@ class SdkManager:
     ) -> list[InstalledPackage]:
         """Checks if an image is installed"""
         cmd = "sdkmanager --list_installed"
-        out = execute(cmd)
+        out = execute(cmd, echo=False)
         installed_packages = _parse_installed_packages(out)
         if wildcard is None:
             return installed_packages

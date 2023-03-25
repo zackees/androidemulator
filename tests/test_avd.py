@@ -5,7 +5,7 @@ Unit test file.
 
 import unittest
 
-from androidemulator.avdman import AvdManager
+from androidemulator.avdmanager import AvdManager
 
 
 class AvdListingTester(unittest.TestCase):

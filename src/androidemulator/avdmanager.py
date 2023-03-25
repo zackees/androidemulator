@@ -8,7 +8,7 @@ import dataclasses
 import os
 from dataclasses import dataclass
 
-from androidemulator.util import execute
+from androidemulator.execute import execute
 
 
 @dataclass
@@ -52,21 +52,21 @@ class AvdManager:
     def __init__(self):
         pass
 
-    def create_avd(self, name: str, image: str, device: str):
+    def create_avd(self, name: str, abi: str, package: str, device: str):
         """Creates an AVD"""
         #   /usr/bin/sh -c \echo no | avdmanager create avd --force -n test --abi 'android-tv/x86' --package 'system-images;android-30;android-tv;x86' --device 'Nexus 6'
         # os.system(f"avdmanager create avd -n {name} -k {image} -d {device}")
         # os.system(f'echo no | avdmanager create avd --force -n "{name}" --abi "{image}" --package "{image}" --device "{device}"')
-        cmd = f'echo no | avdmanager create avd --force -n "{name}" --abi "{image}" --package "{image}" --device "{device}"'
+        cmd = f'echo no | avdmanager create avd --force -n "{name}" --abi "{abi}" --package "{package}" --device "{device}"'
         return execute(cmd)
 
     def delete_avd(self, name: str):
         """Deletes an AVD"""
-        os.system(f"avdmanager delete avd -n {name}")
+        execute(f"avdmanager delete avd -n {name}")
 
     def list_avd(self, name: str | None = None) -> list[Avd]:
         """Lists all AVDs"""
-        stdout = execute("avdmanager list avd")
+        stdout = execute("avdmanager list avd", echo=False)
         out: list[Avd] = _parse_avd_list(stdout)
         if name is not None:
             out = [avd for avd in out if avd.name == name]
@@ -74,13 +74,13 @@ class AvdManager:
 
     def list_device(self) -> list[Device]:
         """Lists all devices"""
-        stdout = execute("avdmanager list device")
+        stdout = execute("avdmanager list device", echo=False)
         devices = _parse_devices(stdout)
         return devices
 
     def list_targets(self) -> list[Target]:
         """Lists all targets"""
-        stdout = execute("avdmanager list target")
+        stdout = execute("avdmanager list target", echo=False)
         return _parse_target_list(stdout)
 
     def to_json(self) -> dict:
