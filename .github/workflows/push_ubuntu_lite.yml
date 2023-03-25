@@ -38,11 +38,12 @@ jobs:
         sudo apt install libgtk-3-dev 
     - name: Which utilties
       run: |
-        which adb
-        which emulator
-        which avdmanager
-        which sdkmanager
-        which gradle
+        which adb || echo adb failed
+        which emulator || echo emulator failed
+        which avdmanager || echo avdmanager failed
+        which sdkmanager || echo sdkmanager failed
+        which gradle || echo gradle failed
+      continue-on-error: true
     - name: printenv
       run: printenv
 
