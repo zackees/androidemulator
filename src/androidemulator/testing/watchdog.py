@@ -3,7 +3,6 @@ Watchdog timer to kill the process if it takes too long to finish.
 """
 
 import os
-import sys
 import threading
 import time
 
