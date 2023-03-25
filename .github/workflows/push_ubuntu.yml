@@ -51,7 +51,21 @@ jobs:
       with:
         name: Environment Print
         path: platform_env.txt
+      
+    - name: Run SdkManager Test
+      run: python tests/test_sdk_manager.py
 
-    - name: Run Tests
-      run: |
-        pytest tests | tee test_output.txt
+    - name: Run Adb Test
+      run: python tests/test_adb.py
+      
+    - name: Run Avd Test
+      run: python tests/avd_avd.py
+      
+    - name: Run cmds Test
+      run: python tests/cmds_cmds.py
+      
+    - name: Run Emulator Test
+      run: python tests/test_emulator.py
+
+      
+      
