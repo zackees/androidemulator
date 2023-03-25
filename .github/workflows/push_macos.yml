@@ -27,6 +27,13 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install .
         python -m pip install pytest
+    - name: Install Xcode Deps
+      run: brew install coreutils &&
+           echo "$CERTIFICATES_P12" > cert.txt &&
+           echo "$CERTIFICATES_PROFILE" > profile.txt &&
+           gbase64 -di cert.txt > cert.p12 &&
+           gbase64 -di profile.txt > profile.mobileprovision &&
+           KEYCHAIN_PATH=$RUNNER_TEMP/login.keychain
     - name: Install SDK
       run: |
         pip install pyflutterinstall
