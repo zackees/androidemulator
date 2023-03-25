@@ -39,7 +39,12 @@ jobs:
         sudo apt install libgtk-3-dev 
     - name: Install SDK
       run: |
+        mkdir install
+        cd install
+        git clone https://github.com/zackees/pyflutterinstall
         pip install pyflutterinstall
+        cd ..
+        cd ..
         pyflutterinstall --skip-confirmation --install-dir ~
     - name: Which utilties
       run: |
