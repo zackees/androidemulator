@@ -112,7 +112,8 @@ def _wait_for_new_device(adb: Adb, timeout: int | None = 60) -> Device:
             # new device showed up
             prev_devices = [new_devices.pop()]
             break
-        if expire_time is not None and time.time() > expire_time:
-            # timeout
-            raise RuntimeError("Timed out waiting for new device.")
+        if expire_time is not None:
+            if time.time() > expire_time:
+                # timeout
+                raise RuntimeError("Timed out waiting for new device.")
     return prev_devices[0]
