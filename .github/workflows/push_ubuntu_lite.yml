@@ -1,4 +1,4 @@
-name: Ubuntu_Tests
+name: Ubuntu_Tests_Lite
 
 on: [push]
 
