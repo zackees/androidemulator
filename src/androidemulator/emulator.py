@@ -20,6 +20,7 @@ class Emulator:
     name: str
     avd_manager: AvdManager = AvdManager()
     sdk_manager: SdkManager = SdkManager()
+    adb = Adb()
     running_proc: subprocess.Popen | None = None
     running_device_serial: str | None = None
 
@@ -53,18 +54,8 @@ class Emulator:
         self.running_proc = subprocess.Popen(  # pylint: disable=consider-using-with
             cmd, shell=True, universal_newlines=True
         )
-        adb = Adb()
-        prev_devices: list[Device] = adb.devices()
-        while True:
-            time.sleep(1)
-            curr_devices: set[Device] = set(adb.devices())
-            # if new elements in curr_devices, then we have a new device.
-            new_devices = curr_devices - set(prev_devices)  # set difference
-            if new_devices:
-                # new device showed up
-                prev_devices = [new_devices.pop()]
-                break
-        self.running_device_serial = prev_devices[0].serial
+        device = _wait_for_new_device(self.adb)
+        self.running_device_serial = device.serial
 
     def is_booted(self) -> bool:
         """Checks if the emulator is booted."""
@@ -96,3 +87,21 @@ class Emulator:
     def stop(self):
         """Stops the emulator."""
         self.running_proc.kill()
+
+
+def _wait_for_new_device(adb: Adb, timeout: int | None = 60) -> Device:
+    expire_time = time.time() + timeout if timeout is not None else None
+    prev_devices: list[Device] = adb.devices()
+    while True:
+        time.sleep(1)
+        curr_devices: set[Device] = set(adb.devices())
+        # if new elements in curr_devices, then we have a new device.
+        new_devices = curr_devices - set(prev_devices)  # set difference
+        if new_devices:
+            # new device showed up
+            prev_devices = [new_devices.pop()]
+            break
+        if expire_time is not None and time.time() > expire_time:
+            # timeout
+            raise RuntimeError("Timed out waiting for new device.")
+    return prev_devices[0]
