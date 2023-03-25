@@ -2,12 +2,14 @@
 Watchdog timer to kill the process if it takes too long to finish.
 """
 
+import os
 import sys
 import threading
 import time
 
 
 def _exit():  # pylint: disable=invalid-name
+    os._exit(-1)  # pylint: disable=protected-access
     sys.exit(1)
 
 
