@@ -61,6 +61,9 @@ jobs:
       run: python tests/test_sdk_manager.py
       continue-on-error: true
 
+    - name: Run SdkManager Install Test
+      run: python tests/test_sdk_manager_install.py
+
     - name: Run Adb Test
       run: python tests/test_adb.py
       continue-on-error: true
