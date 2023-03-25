@@ -30,7 +30,7 @@ jobs:
     - name: Install SDK
       run: |
         pip install pyflutterinstall
-        pyflutterinstall --skip-confirmation C:\tools
+        pyflutterinstall --skip-confirmation --install-dir C:\tools
     - name: Which utilties
       run: |
         adb --which
