@@ -22,7 +22,7 @@ class EmulatorTester(unittest.TestCase):
         emulator.start()
         try:
             print("Waiting for boot")
-            emulator.wait_for_boot()
+            emulator.wait_for_boot(timeout=60 * 10)  # 10 mins
             self.assertTrue(emulator.is_booted(), "Emulator not booted.")
             print()
         finally:

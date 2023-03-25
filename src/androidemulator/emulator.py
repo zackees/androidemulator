@@ -74,10 +74,10 @@ class Emulator:
         )
         return stdout.stdout.strip() == "1"
 
-    def wait_for_boot(self, timeout_seconds=120, check=True) -> bool:
+    def wait_for_boot(self, timeout=120, check=True) -> bool:
         """Waits for the emulator to boot.s"""
         now = time.time()
-        future = now + timeout_seconds
+        future = now + timeout
         next_time_printout = now + 10
         while time.time() < future:
             if self.is_booted():
