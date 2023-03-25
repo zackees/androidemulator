@@ -22,9 +22,11 @@ def execute(cmd: str, check=True, echo=True) -> str:
     tmpfile.close()
     atexit.register(safe_delete, tmpfile.name)
     if echo:
-        modified_cmd = f"{cmd} | tee {tmpfile.name}"  # tee provided by zcmds for win32
+        modified_cmd = (
+            f"{cmd} 2>&1 | tee {tmpfile.name}"  # tee provided by zcmds for win32
+        )
     else:
-        modified_cmd = f"{cmd} > {tmpfile.name}"
+        modified_cmd = f"{cmd} > {tmpfile.name} 2>&1"
     print(f"Executing: {cmd}")
     try:
         run(modified_cmd, shell=True, universal_newlines=True, check=check)
