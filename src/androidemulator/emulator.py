@@ -80,9 +80,13 @@ class Emulator:
         """Waits for the emulator to boot.s"""
         now = time.time()
         future = now + timeout_seconds
+        next_time_printout = now + 10
         while time.time() < future:
             if self.is_booted():
                 return True
+            if time.time() > next_time_printout:
+                next_time_printout = time.time() + 10
+                print("Still waiting for emulator to boot...")
             time.sleep(1)
         warnings.warn("Emulator did not boot but timed out instead.")
         if check:

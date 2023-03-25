@@ -45,7 +45,7 @@ class SdkManager:
         if channel is not None:
             cmd += f" --channel={channel}"
         if not self.isinstalled(package):
-            execute(cmd, check=True)
+            execute(cmd, check=True, echo=True)
         packages = self.list_installed_packages(package)
         if len(packages) == 0:
             raise OSError(f"Package {package} not installed")

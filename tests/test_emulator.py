@@ -7,7 +7,7 @@ import unittest
 from androidemulator.emulator import Emulator
 from androidemulator.testing.watchdog import WatchDog
 
-wdt = WatchDog(timeout=60*10) # Allow 10 minutes for emulator to boot.
+wdt = WatchDog(timeout=60 * 10)  # Allow 10 minutes for emulator to boot.
 
 DISABLE_TEST = False
 SYSTEM_IMAGE = "system-images;android-30;android-tv;x86"
