@@ -15,6 +15,11 @@ class Device:
     attached: str
     extra: str
 
+    @property
+    def is_emulator(self) -> bool:
+        """Returns True if device is an emulator"""
+        return "emulator" in self.serial
+
 
 @dataclass
 class Adb:
@@ -35,6 +40,10 @@ class Adb:
             device = Device(parts[0], parts[1], parts[2])
             out.append(device)
         return out
+
+    def kill(self, serial_no: str) -> None:
+        """Kill the emulator"""
+        execute(f"adb -s {serial_no} emu kill", echo=True, check=False)
 
 
 def unit_test():
